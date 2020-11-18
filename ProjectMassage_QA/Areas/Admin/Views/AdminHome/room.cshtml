@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+
+    var list_room = ViewData["list_room"] as List<ProjectMassage_QA.Areas.Admin.Models.FW.tblRoom>;
+}
+
+@foreach (var item in list_room)
+{
+    var Status = ""; var Icon = ""; var HTML = ""; var CSS = ""; var Where = ""; var chang_color = "";var color_text ="";
+    if (item.R_Status == 1)
+    {
+        Status = "warning";
+        Icon = " fa-procedures";
+        HTML = "CÓ KHÁCH";
+        CSS = "QA_disabled";
+        Where = "HaveGuests";
+        chang_color = "cokhach";
+        
+    }
+    else if (item.R_Status == 0)
+    {
+        Status = "success";
+        Icon = "fa-diagnoses";
+        HTML = "ONLINE";
+        Where = "NowEmpty";
+        chang_color = "dangtrong";
+        color_text = "mautrang";
+    }
+    else if (item.R_Status == 2)
+    {
+        Status = "secondary";
+        Icon = "fa-broom";
+        HTML = "ĐANG DỌN";
+        Where = "ImBusy";
+        chang_color = "dangdon";
+    }
+    <div id="room_delete_@item.Id" class="col-md-2 Drag_Cart StatusEmployeeAdmin @Where @CSS " data-status="@item.R_Status" data-target="@item.Id" data-id="@item.Id" style="padding-left:2px; padding-right:2px;">
+        <a data-id="@item.R_Status" data-inline="@item.Id" class="show_menu">
+            <input type="hidden" id="doimau_@item.Id" value="@item.R_Status"/>
+            <input type="hidden" class="OderRoomAdmin" data-role="@item.Id"  value="@item.Id"/>
+
+            <input type="hidden" class="OderRoomAdmin2" id="getroom_@item.Id" data-time=""  data-id="@item.Id" data-name="@item.R_Name" value="0" /> @*data-toggle="@item.R_Status"|id="le_@item.Id" onmousedown="WhichButton(event,@item.Id)" *@
+            <div class="card bg-@Status @chang_color cao" id="card-QA_Status_@item.Id" style="border-radius: 0; margin-bottom: 4px; height:120px;">
+                <div class="card-body p-3 @color_text " id="choose_@item.Id">
+                    <h6 class="card-text text-xs">Phòng | @item.R_Name</h6>
+                    <p class="card-text text-xs" id="choose_html_@item.Id">@HTML</p>
+                    <div class="icon position-absolute" id="choose_icon_@item.Id">
+                        <i class="fas @Icon"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+}

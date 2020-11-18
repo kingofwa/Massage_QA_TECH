@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "QA_Massage";
+    var list_category_Staff = ViewData["list_category_Staff"] as List<ProjectMassage_QA.Areas.Admin.Models.FW.tblCategory>;
+    var list_service_Staff = ViewData["list_service_Staff"] as List<ProjectMassage_QA.Areas.Admin.Models.FW.tblService>;
+    var list_slides = ViewData["list_slides"] as List<ProjectMassage_QA.Areas.Admin.Models.FW.tblSlider>;
+    var thong_bao = ViewData["thong_bao"] as List<ProjectMassage_QA.Areas.Admin.Models.FW.tblNotification>;
+    var time_open_close = ViewData["time_open_close"] as List<ProjectMassage_QA.Areas.Admin.Models.ViewModel.time_open_close>;
+}
+
+<div class="QA_client">
+    <div class="topheader">
+        @foreach (var time in time_open_close)
+        {
+            <div class="QA_openhour">
+                Mở cửa từ : @time.open_door.GetValueOrDefault().ToString(@"h\:mm") đến @time.close_door.GetValueOrDefault().ToString(@"hh\:mm")
+            </div>
+        }
+    </div> <!-- end topheader -->
+    <div class="QA_slide">
+        <!-- start home QA_slider -->
+        <div class="slider-area an-1 hm-1">
+            <div class="bend niceties preview">
+                <div id="ensign-nivoslider" class="slides">
+                    @*<script>vả</script>*@
+                    @foreach (var item in list_slides)
+                    {
+                        <img src="@item.SLi_Image" alt="" title="#slider-direction-@item.Id" />
+                    }
+                </div>
+                <!-- direction 1 -->
+                @foreach (var item2 in list_slides)
+                {
+                    <div id="slider-direction-@item2.Id" class="t-cn slider-direction">
+                        <div class="slider-progress"></div>
+                        <div class="slider-content t-cn s-tb slider-@item2.Id">
+                            <div class="title-container s-tb-c title-compress">
+                                <h3 class="title2">@item2.SLi_Name</h3>
+                                <h4 class="title1">@item2.SLi_Content</h4>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>   <!-- slider end-->
+    </div><!-- end home QA_slider -->
+    <div class="QA_notification mt-1">
+        <!-- start QA_notification -->
+        <div class="container-fluid">
+            @foreach (var item1 in thong_bao)
+            {
+                <marquee>@item1.N_Content</marquee>
+            }
+        </div>
+    </div><!-- end QA_notification -->
+    <div class="QA_option_service mt-1">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-md-6 col-xs-6">
+                    <div class="form-group">
+                        <select id="loaihinh" class="form-control" data-toggle="">
+                            <option value="0" selected>Chọn thể loại</option>
+                            @foreach (var item in list_category_Staff)
+                            {
+                                <option value="@item.Id|@item.C_Name|@item.C_Money" class="text-uppercase">@item.C_Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <div class="form-group">
+                        <select id="dichvu" class="form-control">
+                            <option value="0" selected>Chọn dịch vụ</option>
+                            @foreach (var item in list_service_Staff)
+                            {
+                                <option value="@item.Id|@item.S_Name|@item.S_Money" class="text-uppercase">@item.S_Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end QA_option_service-->
+    @{Html.RenderAction("Employee_Staff", "Home");}
+
+</div><!-- end QA_client -->
+<div class="QA_right_left">
+    <a class="btn-warning" data-toggle="modal" id="ActiveOrder" href="" title="đã chọn" style="display: inline;">
+        <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+    </a>
+    <a class="btn-danger" data-target="#evaluate" data-toggle="modal" id="removestar" href="" title="Đánh giá" style="display: inline;"><i class="fa fa-car" aria-hidden="true"></i></a>
+</div>
